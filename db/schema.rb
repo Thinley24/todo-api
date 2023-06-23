@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_20_082035) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_23_121556) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.boolean "done"
@@ -20,6 +20,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_082035) do
     t.index ["todo_id"], name: "index_items_on_todo_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.string "token"
+    t.integer "login_attempts"
+    t.datetime "expires_at"
+    t.string "status"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.date "due_date"
+    t.string "status"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
   create_table "todos", force: :cascade do |t|
     t.string "title"
     t.string "created_by"
@@ -27,5 +49,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_082035) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_profiles", force: :cascade do |t|
+    t.string "full_name"
+    t.string "address"
+    t.string "phone_number"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_profiles_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "items", "todos"
+  add_foreign_key "sessions", "users"
+  add_foreign_key "tasks", "users"
+  add_foreign_key "user_profiles", "users"
 end
