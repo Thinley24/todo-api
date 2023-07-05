@@ -15,4 +15,8 @@ Rails.application.routes.draw do
   post '/auth/profile', to: 'user_profiles#create'
   get '/auth/profile', to: 'user_profiles#show'
   put '/auth/profile', to: 'user_profiles#update'
+
+  resources :users do
+    resources :tasks, only: [:create]
+  end
 end
