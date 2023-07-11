@@ -1,5 +1,7 @@
 # require database cleaner at the top level
 require 'database_cleaner'
+require 'shoulda/matchers'
+require 'rails_helper'
 
 # [...]
 # configure shoulda matchers to use rspec as the test framework and full matcher libraries for rails
@@ -12,7 +14,13 @@ end
 
 # [...]
 RSpec.configure do |config|
-  # [...]
+
+  # must-included part
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+  
   # add `FactoryBot` methods
   config.include FactoryBot::Syntax::Methods
 
